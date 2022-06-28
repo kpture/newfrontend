@@ -44,7 +44,6 @@ const columns: ColumnsType<DataType> = [
      text === "up" ? color="success" : color="error" 
      return  <Tag color={color} >{text.toUpperCase()}</Tag>
     },
-
   },
 ];
 
@@ -64,18 +63,13 @@ const rowSelection = {
 };
 
 const AgentTable: React.FC<{ agents: DataType[] }> = ({ agents }) => {
-
   return (
     <div>
       <div style={{marginBottom:"30px"}}>
-
       <Input size='large' style={{ width: 'calc(100% - 200px)',backgroundColor:"#ffffff"  }} placeholder={"Kpture name"} />
       <Button size='large' style={{ width:"200px"}} type="primary">Start</Button>
-  
-
       </div>
     <Card  style={{boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" ,borderRadius:"2px"}}>
-    
       <Table size='middle'
         rowSelection={{
           type: 'checkbox',
