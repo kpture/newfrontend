@@ -1,0 +1,17 @@
+apis/AgentsApi.ts
+apis/KpturesApi.ts
+apis/KubernetesApi.ts
+apis/ProfilesApi.ts
+apis/WiresharkApi.ts
+apis/index.ts
+index.ts
+models/AgentInfo.ts
+models/AgentMetadata.ts
+models/CaptureInfo.ts
+models/CaptureKpture.ts
+models/ServerKptureNamespaceRequest.ts
+models/ServerKptureRequest.ts
+models/ServerKptureRequestAgentsRequestInner.ts
+models/ServerServerError.ts
+models/index.ts
+runtime.ts

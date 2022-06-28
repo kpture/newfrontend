@@ -17,31 +17,29 @@ const CapturesPage: React.FC = () => {
 
             <Card style={{ marginBottom: "40px", boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <Title level={3}>Kpture-pfcp</Title>
+                    <Title level={4}>Kpture-pfcp</Title>
                     <CheckCircleTwoTone twoToneColor="#4682FF" style={{ fontSize: '40px', }}></CheckCircleTwoTone>
                 </div>
                 <div>
                     <Title level={5}>22 jun 2022 17:30:56</Title>
                 </div>
                 <Divider></Divider>
-               
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <div>
-                        <Button type="primary" icon={<DownloadOutlined />} size={"large"}>
+                        <Button type="primary" icon={<DownloadOutlined />} size={"small"}>
                             Download
                         </Button>
                     </div>
                     <div>
-                        <Button type="primary" icon={<DeleteOutlined />} danger size={"large"}>
+                        <Button type="primary" icon={<DeleteOutlined />} danger size={"small"}>
                             Delete
                         </Button>
                     </div>
                 </div>
             </Card>
-
             <Card style={{ marginBottom: "40px", boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" }}>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <Title level={3}>Kpture-pfcp</Title>
+                    <Title level={4}>Kpture-pfcp</Title>
                     <CheckCircleTwoTone twoToneColor="#4682FF" style={{ fontSize: '40px', }}></CheckCircleTwoTone>
                 </div>
                 <div>
@@ -50,17 +48,19 @@ const CapturesPage: React.FC = () => {
                 <Divider></Divider>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                     <div>
-                        <Button type="primary" icon={<DownloadOutlined />} size={"large"}>
+                        <Button type="primary" icon={<DownloadOutlined />} size={"small"}>
                             Download
                         </Button>
                     </div>
                     <div>
-                        <Button type="primary" icon={<DeleteOutlined />} danger size={"large"}>
+                        <Button type="primary" icon={<DeleteOutlined />} danger size={"small"}>
                             Delete
                         </Button>
                     </div>
                 </div>
             </Card>
+            
+           
         </div>
 
     );

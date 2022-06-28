@@ -1,0 +1,350 @@
+definitions:
+  agent.Info:
+    properties:
+      errors:
+        items:
+          type: string
+        type: array
+      metadata:
+        $ref: '#/definitions/agent.Metadata'
+      packetNb:
+        type: integer
+    type: object
+  agent.Metadata:
+    properties:
+      name:
+        type: string
+      namespace:
+        type: string
+      status:
+        type: string
+      system:
+        type: string
+      targetUrl:
+        type: string
+    type: object
+  capture.Info:
+    properties:
+      packetNb:
+        type: integer
+      size:
+        type: integer
+    type: object
+  capture.Kpture:
+    properties:
+      agents:
+        items:
+          $ref: '#/definitions/agent.Info'
+        type: array
+      captureInfo:
+        $ref: '#/definitions/capture.Info'
+      name:
+        type: string
+      profilName:
+        type: string
+      startTime:
+        type: string
+      status:
+        type: string
+      stopTime:
+        type: string
+      uuid:
+        type: string
+    type: object
+  server.kptureNamespaceRequest:
+    properties:
+      kptureName:
+        type: string
+      kptureNamespace:
+        type: string
+    type: object
+  server.kptureRequest:
+    properties:
+      agentsRequest:
+        items:
+          properties:
+            name:
+              type: string
+            namespace:
+              type: string
+          type: object
+        type: array
+      kptureName:
+        type: string
+    type: object
+  server.serverError:
+    properties:
+      message:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: kpture.git@gmail.com
+    name: Author
+    url: http://www.kpture.io
+  description: Kpture Backend server
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Kpture-backend
+  version: "0.1"
+paths:
+  /api/v1/agents:
+    get:
+      description: Get Agents
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/agent.Metadata'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.serverError'
+      summary: Get Agents
+      tags:
+      - agents
+  /api/v1/kpture:
+    post:
+      consumes:
+      - application/json
+      description: Start Kpture
+      parameters:
+      - description: selected agents for capture
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/server.kptureRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            Websocket:
+              type: string
+          schema:
+            $ref: '#/definitions/capture.Kpture'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.serverError'
+      summary: Start Kpture
+      tags:
+      - kptures
+  /api/v1/kpture/{uuid}:
+    get:
+      description: Get kapture
+      parameters:
+      - description: capture uuid
+        in: path
+        name: uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/capture.Kpture'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.serverError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.serverError'
+      summary: Get kapture
+      tags:
+      - kptures
+  /api/v1/kpture/{uuid}/download:
+    get:
+      description: Download kpture
+      parameters:
+      - description: capture uuid
+        in: path
+        name: uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.serverError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.serverError'
+      summary: Download kpture
+      tags:
+      - kptures
+  /api/v1/kpture/{uuid}/stop:
+    put:
+      description: Stop Kpture
+      parameters:
+      - description: capture uuid
+        in: path
+        name: uuid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/capture.Kpture'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.serverError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.serverError'
+      summary: Stop Kpture
+      tags:
+      - kptures
+  /api/v1/kpture/k8s/namespace:
+    post:
+      consumes:
+      - application/json
+      description: Start namespace kpture
+      parameters:
+      - description: namespace for capture
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/server.kptureNamespaceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            Websocket:
+              type: string
+          schema:
+            $ref: '#/definitions/capture.Kpture'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/server.serverError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.serverError'
+      summary: Start namespace kpture
+      tags:
+      - kubernetes
+  /api/v1/kpture/k8s/namespaces:
+    get:
+      consumes:
+      - application/json
+      description: Get enabled kubernetes namespaces
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.serverError'
+      summary: Get enabled kubernetes namespaces
+      tags:
+      - kubernetes
+  /api/v1/kptures:
+    get:
+      description: Get kaptures
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              $ref: '#/definitions/capture.Kpture'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/server.serverError'
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get kaptures
+      tags:
+      - kptures
+  /api/v1/profile/{profileName}:
+    post:
+      description: Create profile
+      parameters:
+      - description: profileName
+        in: path
+        name: profileName
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.serverError'
+      summary: Create profile
+      tags:
+      - profiles
+  /api/v1/profiles:
+    get:
+      description: Get profiles
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.serverError'
+      summary: Get profiles
+      tags:
+      - profiles
+  /api/v1/wireshark/hostfile:
+    get:
+      description: Get hostfile
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/server.serverError'
+      summary: Get hostfile
+      tags:
+      - wireshark
+swagger: "2.0"

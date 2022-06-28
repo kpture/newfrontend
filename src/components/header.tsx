@@ -22,19 +22,21 @@ const KptureHeader: React.FC = () => {
     style={{ paddingInline: "10vh" ,paddingTop:"10px"}}
     title={<Link to="/">Kpture</Link>}
 
-
     avatar={{ src: logo, size: 'large' }}
     extra={[
+      <Button key="3" size='large'><Link to="/dashboard">Home</Link></Button>,
       <Button key="2" size='large'><Link to="/Captures">Captures</Link></Button>,
       <Button key="1" size='large'>
         Settings
       </Button>,
       <Select
+        key="8"
         showSearch
         // bordered={false}
         style={{ width: 200 }}
         placeholder="Profile"
         size='large'
+        defaultValue={"Default"}
         suffixIcon={<UserOutlined />}
         optionFilterProp="children"
         filterOption={(input, option) => (option!.children as unknown as string).includes(input)}
@@ -44,7 +46,7 @@ const KptureHeader: React.FC = () => {
             .localeCompare((optionB!.children as unknown as string).toLowerCase())
         }
       >
-        <Option value="1">Not Identified</Option>
+        <Option value="1">Default</Option>
         <Option value="2">Closed</Option>
         <Option value="3">Communicated</Option>
         <Option value="4">Identified</Option>
