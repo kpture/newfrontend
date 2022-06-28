@@ -16,6 +16,7 @@
   color: rgba(0, 0, 0, 0.85);
   font-weight: 600;
   font-size: 35px;
+  font-family: "Poppins";
   line-height: 1.5715;
 }
 
@@ -30,6 +31,7 @@
 
 body {
   max-height: 90vh;
+
 }
 /* .ant-table-tbody > tr.ant-table-row-selected > td {
   background: #a9c6ff;
@@ -41,4 +43,83 @@ body {
 
 .ant-table-container table > thead > tr:first-child th:first-child {
   border-top-left-radius: 7px;
+}
+.ant-table-thead > tr > th {
+  color: rgba(0, 0, 0, 0.85);
+  background: transparent;
+  border-bottom: 1px solid #f0f0f0;
+}
+.ant-table-tbody > tr.ant-table-row-selected > td {
+  background: transparent;
+  border-color: rgba(0, 0, 0, 0.03);
+}
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #497ADF;
+  border-color: #497ADF;
+}
+
+.ant-table-tbody > tr.ant-table-row-selected:hover > td {
+  background: transparent;
+  border-color: rgba(0, 0, 0, 0.03);
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: local('Poppins'), url(./assets/fonts/Poppins-Light.ttf) format('truetype');
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                            'embedded-opentype', and 'svg' */
+}
+
+
+
+a {
+    color: #000000;
+}
+a:hover{
+  color: #2350b0;
+}
+
+.ant-btn-primary {
+  color: #fff;
+  /* border-color: #1890ff; */
+  background: #497ADF;
+}
+
+.ant-btn-primary:hover {
+  color: #fff;
+  /* border-color: #1890ff; */
+  background: #497ADF;
+}
+
+.ant-btn-primary:focus {
+  color: #fff;
+  /* border-color: #1890ff; */
+  background: #497ADF;
+}
+.ant-tag-success {
+  background: #497ADF;
+  color: #ffffff;
+  border-color: #4682FF;
+}
+.ant-tag-error {
+  color: #ffffff;
+  background: #df4949;
+  border-color: rgb(248, 126, 126);
+}
+
+.ant-table {
+
+  font-size: 18px;
+
+}
+.ant-tag {
+  font-size: 15px;
+}
+
+.ant-pagination-item-active a {
+  color: #4682FF;
+}
+
+.ant-pagination-item-active {
+  border-color: #4682FF;
 }

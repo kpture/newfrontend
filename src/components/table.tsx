@@ -1,12 +1,18 @@
-import { Divider, Radio, Table } from 'antd';
+import {  Table } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
 import React, { useState } from 'react';
+import { Card } from 'antd';
+import { Tag } from 'antd';
+import { Typography,Input,Button } from 'antd';
+import { motion } from 'framer-motion';
+
+const { Title } = Typography;
 
 interface DataType {
   key: React.Key;
   name: string;
-  age: number;
-  address: string;
+  namespace: string;
+  status: string;
 }
 
 const columns: ColumnsType<DataType> = [
@@ -15,12 +21,30 @@ const columns: ColumnsType<DataType> = [
     dataIndex: 'name',
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
+    title: 'Namespace',
+    dataIndex: 'namespace',
+    filters: [
+      {
+        text: "testns",
+        value: 'testns',
+      },
+      {
+        text: "testns2",
+        value: 'testns2',
+      },
+    ],
+     onFilter: (value: string | number | boolean, record: DataType)  => record.namespace===value,
+    filterSearch: true,
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
+    title: 'Status',
+    dataIndex: 'status',
+    render: text => {
+    var color = "green"
+     text === "UP" ? color="success" : color="error" 
+     return  <Tag color={color} >{text}</Tag>
+    },
+
   },
 ];
 
@@ -28,26 +52,26 @@ const data: DataType[] = [
   {
     key: '1',
     name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
+    namespace: "testns",
+    status: "UP"
   },
   {
     key: '2',
     name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
+    namespace: "testns",
+    status: "UP"
   },
   {
     key: '3',
     name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
+    namespace: "testns",
+    status: "DOWN"
   },
   {
     key: '4',
     name: 'Disabled User',
-    age: 99,
-    address: 'Sidney No. 1 Lake Park',
+    namespace: "testns2",
+    status: "UP"
   },
 ];
 
@@ -62,20 +86,27 @@ const rowSelection = {
 };
 
 const AgentTable: React.FC = () => {
-  const [selectionType, setSelectionType] = useState<'checkbox'>('checkbox');
 
   return (
     <div>
+      <div >
+      <Input.Group style={{ marginBottom:"50px" }}>
+      <Input size='large' style={{ width: 'calc(100% - 200px)' }}placeholder={"Kpture name"} />
+      <Button size='large' style={{ width:"200px" }} type="primary">Start</Button>
+    </Input.Group>
+      </div>
+    <Card  style={{marginBottom:"40px" ,boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)" ,borderRadius:"2px"}}>
     
-      <Table
+      <Table size='large'
         rowSelection={{
-          type: selectionType,
+          type: 'checkbox',
 
           ...rowSelection,
         }}
         columns={columns}
         dataSource={data}
       />
+    </Card>
     </div>
   );
 };
