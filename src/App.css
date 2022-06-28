@@ -1,0 +1,44 @@
+@import '~antd/dist/antd.css';
+
+
+
+.ant-avatar-lg {
+  width: 60px;
+  height: 60px;
+}
+
+.ant-page-header {
+  margin: 10px;
+  padding: 0;
+  background-color: #fff;
+}
+.ant-page-header-heading-title {
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 600;
+  font-size: 35px;
+  line-height: 1.5715;
+}
+
+.App {
+  max-height: 80vh;
+}
+
+.ant-page-header-heading-extra {
+  align-self: center;
+  white-space: nowrap;
+}
+
+body {
+  max-height: 90vh;
+}
+/* .ant-table-tbody > tr.ant-table-row-selected > td {
+  background: #a9c6ff;
+  border-color: rgba(0, 0, 0, 0.03);
+} */
+.ant-table-container table > thead > tr:first-child th:last-child {
+  border-top-right-radius: 7px;
+}
+
+.ant-table-container table > thead > tr:first-child th:first-child {
+  border-top-left-radius: 7px;
+}
