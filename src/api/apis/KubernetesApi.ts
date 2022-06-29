@@ -26,6 +26,10 @@ import {
     ServerServerErrorToJSON,
 } from '../models';
 
+export interface ApiV1K8sNamespacesNamespaceInjectPostRequest {
+    namespace: string;
+}
+
 export interface ApiV1KptureK8sNamespacePostRequest {
     data: ServerKptureNamespaceRequest;
 }
@@ -34,6 +38,65 @@ export interface ApiV1KptureK8sNamespacePostRequest {
  * 
  */
 export class KubernetesApi extends runtime.BaseAPI {
+
+    /**
+     * Get all kubernetes namespaces
+     * Get all kubernetes namespaces
+     */
+    async apiV1K8sNamespacesGetRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Array<string>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/v1/k8s/namespaces`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * Get all kubernetes namespaces
+     * Get all kubernetes namespaces
+     */
+    async apiV1K8sNamespacesGet(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Array<string>> {
+        const response = await this.apiV1K8sNamespacesGetRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Inject annotation webhook
+     * Inject annotation webhook
+     */
+    async apiV1K8sNamespacesNamespaceInjectPostRaw(requestParameters: ApiV1K8sNamespacesNamespaceInjectPostRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.namespace === null || requestParameters.namespace === undefined) {
+            throw new runtime.RequiredError('namespace','Required parameter requestParameters.namespace was null or undefined when calling apiV1K8sNamespacesNamespaceInjectPost.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/v1/k8s/namespaces/{namespace}/inject`.replace(`{${"namespace"}}`, encodeURIComponent(String(requestParameters.namespace))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Inject annotation webhook
+     * Inject annotation webhook
+     */
+    async apiV1K8sNamespacesNamespaceInjectPost(requestParameters: ApiV1K8sNamespacesNamespaceInjectPostRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void> {
+        await this.apiV1K8sNamespacesNamespaceInjectPostRaw(requestParameters, initOverrides);
+    }
 
     /**
      * Start namespace kpture

@@ -35,10 +35,8 @@ const KptureHeader: React.FC<{
       avatar={{ src: logo, size: 'large' }}
       extra={[
         <Button key="3" size='large'><Link to="/dashboard">Home</Link></Button>,
-        <Button key="2" size='large'><Link to="/Captures">Captures</Link></Button>,
-        <Button key="1" size='large'>
-          Settings
-        </Button>,
+        <Button key="2" size='large'><Link to="/captures">Captures</Link></Button>,
+        <Button key="4" size='large'><Link to="/settings">Settings</Link></Button>,
         <Select
           key="8"
           showSearch

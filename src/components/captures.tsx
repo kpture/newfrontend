@@ -60,7 +60,6 @@ const CapturesPage: React.FC = () => {
                 </div>
             </Card>
             
-           
         </div>
 
     );
