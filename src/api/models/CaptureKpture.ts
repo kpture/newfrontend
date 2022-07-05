@@ -58,10 +58,10 @@ export interface CaptureKpture {
     profilName?: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof CaptureKpture
      */
-    startTime?: string;
+    startTime?: number;
     /**
      * 
      * @type {string}
@@ -70,10 +70,10 @@ export interface CaptureKpture {
     status?: string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof CaptureKpture
      */
-    stopTime?: string;
+    stopTime?: number;
     /**
      * 
      * @type {string}

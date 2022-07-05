@@ -26,19 +26,23 @@ import {
     ServerServerErrorToJSON,
 } from '../models';
 
-export interface ApiV1KpturePostRequest {
+export interface KpturePostRequest {
     data: ServerKptureRequest;
 }
 
-export interface ApiV1KptureUuidDownloadGetRequest {
+export interface KptureUuidDeleteRequest {
     uuid: string;
 }
 
-export interface ApiV1KptureUuidGetRequest {
+export interface KptureUuidDownloadGetRequest {
     uuid: string;
 }
 
-export interface ApiV1KptureUuidStopPutRequest {
+export interface KptureUuidGetRequest {
+    uuid: string;
+}
+
+export interface KptureUuidStopPutRequest {
     uuid: string;
 }
 
@@ -51,9 +55,9 @@ export class KpturesApi extends runtime.BaseAPI {
      * Start Kpture
      * Start Kpture
      */
-    async apiV1KpturePostRaw(requestParameters: ApiV1KpturePostRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CaptureKpture>> {
+    async kpturePostRaw(requestParameters: KpturePostRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CaptureKpture>> {
         if (requestParameters.data === null || requestParameters.data === undefined) {
-            throw new runtime.RequiredError('data','Required parameter requestParameters.data was null or undefined when calling apiV1KpturePost.');
+            throw new runtime.RequiredError('data','Required parameter requestParameters.data was null or undefined when calling kpturePost.');
         }
 
         const queryParameters: any = {};
@@ -63,7 +67,7 @@ export class KpturesApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/v1/kpture`,
+            path: `/kpture`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -77,18 +81,18 @@ export class KpturesApi extends runtime.BaseAPI {
      * Start Kpture
      * Start Kpture
      */
-    async apiV1KpturePost(requestParameters: ApiV1KpturePostRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CaptureKpture> {
-        const response = await this.apiV1KpturePostRaw(requestParameters, initOverrides);
+    async kpturePost(requestParameters: KpturePostRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CaptureKpture> {
+        const response = await this.kpturePostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Download kpture
-     * Download kpture
+     * Delete kapture
+     * Delete kapture
      */
-    async apiV1KptureUuidDownloadGetRaw(requestParameters: ApiV1KptureUuidDownloadGetRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>> {
+    async kptureUuidDeleteRaw(requestParameters: KptureUuidDeleteRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.uuid === null || requestParameters.uuid === undefined) {
-            throw new runtime.RequiredError('uuid','Required parameter requestParameters.uuid was null or undefined when calling apiV1KptureUuidDownloadGet.');
+            throw new runtime.RequiredError('uuid','Required parameter requestParameters.uuid was null or undefined when calling kptureUuidDelete.');
         }
 
         const queryParameters: any = {};
@@ -96,7 +100,38 @@ export class KpturesApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/v1/kpture/{uuid}/download`.replace(`{${"uuid"}}`, encodeURIComponent(String(requestParameters.uuid))),
+            path: `/kpture/{uuid}`.replace(`{${"uuid"}}`, encodeURIComponent(String(requestParameters.uuid))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Delete kapture
+     * Delete kapture
+     */
+    async kptureUuidDelete(requestParameters: KptureUuidDeleteRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void> {
+        await this.kptureUuidDeleteRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Download kpture
+     * Download kpture
+     */
+    async kptureUuidDownloadGetRaw(requestParameters: KptureUuidDownloadGetRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.uuid === null || requestParameters.uuid === undefined) {
+            throw new runtime.RequiredError('uuid','Required parameter requestParameters.uuid was null or undefined when calling kptureUuidDownloadGet.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/kpture/{uuid}/download`.replace(`{${"uuid"}}`, encodeURIComponent(String(requestParameters.uuid))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -109,17 +144,17 @@ export class KpturesApi extends runtime.BaseAPI {
      * Download kpture
      * Download kpture
      */
-    async apiV1KptureUuidDownloadGet(requestParameters: ApiV1KptureUuidDownloadGetRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void> {
-        await this.apiV1KptureUuidDownloadGetRaw(requestParameters, initOverrides);
+    async kptureUuidDownloadGet(requestParameters: KptureUuidDownloadGetRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void> {
+        await this.kptureUuidDownloadGetRaw(requestParameters, initOverrides);
     }
 
     /**
      * Get kapture
      * Get kapture
      */
-    async apiV1KptureUuidGetRaw(requestParameters: ApiV1KptureUuidGetRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CaptureKpture>> {
+    async kptureUuidGetRaw(requestParameters: KptureUuidGetRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CaptureKpture>> {
         if (requestParameters.uuid === null || requestParameters.uuid === undefined) {
-            throw new runtime.RequiredError('uuid','Required parameter requestParameters.uuid was null or undefined when calling apiV1KptureUuidGet.');
+            throw new runtime.RequiredError('uuid','Required parameter requestParameters.uuid was null or undefined when calling kptureUuidGet.');
         }
 
         const queryParameters: any = {};
@@ -127,7 +162,7 @@ export class KpturesApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/v1/kpture/{uuid}`.replace(`{${"uuid"}}`, encodeURIComponent(String(requestParameters.uuid))),
+            path: `/kpture/{uuid}`.replace(`{${"uuid"}}`, encodeURIComponent(String(requestParameters.uuid))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -140,8 +175,8 @@ export class KpturesApi extends runtime.BaseAPI {
      * Get kapture
      * Get kapture
      */
-    async apiV1KptureUuidGet(requestParameters: ApiV1KptureUuidGetRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CaptureKpture> {
-        const response = await this.apiV1KptureUuidGetRaw(requestParameters, initOverrides);
+    async kptureUuidGet(requestParameters: KptureUuidGetRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CaptureKpture> {
+        const response = await this.kptureUuidGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -149,9 +184,9 @@ export class KpturesApi extends runtime.BaseAPI {
      * Stop Kpture
      * Stop Kpture
      */
-    async apiV1KptureUuidStopPutRaw(requestParameters: ApiV1KptureUuidStopPutRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CaptureKpture>> {
+    async kptureUuidStopPutRaw(requestParameters: KptureUuidStopPutRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<CaptureKpture>> {
         if (requestParameters.uuid === null || requestParameters.uuid === undefined) {
-            throw new runtime.RequiredError('uuid','Required parameter requestParameters.uuid was null or undefined when calling apiV1KptureUuidStopPut.');
+            throw new runtime.RequiredError('uuid','Required parameter requestParameters.uuid was null or undefined when calling kptureUuidStopPut.');
         }
 
         const queryParameters: any = {};
@@ -159,7 +194,7 @@ export class KpturesApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/v1/kpture/{uuid}/stop`.replace(`{${"uuid"}}`, encodeURIComponent(String(requestParameters.uuid))),
+            path: `/kpture/{uuid}/stop`.replace(`{${"uuid"}}`, encodeURIComponent(String(requestParameters.uuid))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
@@ -172,8 +207,8 @@ export class KpturesApi extends runtime.BaseAPI {
      * Stop Kpture
      * Stop Kpture
      */
-    async apiV1KptureUuidStopPut(requestParameters: ApiV1KptureUuidStopPutRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CaptureKpture> {
-        const response = await this.apiV1KptureUuidStopPutRaw(requestParameters, initOverrides);
+    async kptureUuidStopPut(requestParameters: KptureUuidStopPutRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<CaptureKpture> {
+        const response = await this.kptureUuidStopPutRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -181,13 +216,13 @@ export class KpturesApi extends runtime.BaseAPI {
      * Get kaptures
      * Get kaptures
      */
-    async apiV1KpturesGetRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<{ [key: string]: CaptureKpture; }>> {
+    async kpturesGetRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<{ [key: string]: CaptureKpture; }>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/v1/kptures`,
+            path: `/kptures`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -200,8 +235,8 @@ export class KpturesApi extends runtime.BaseAPI {
      * Get kaptures
      * Get kaptures
      */
-    async apiV1KpturesGet(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<{ [key: string]: CaptureKpture; }> {
-        const response = await this.apiV1KpturesGetRaw(initOverrides);
+    async kpturesGet(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<{ [key: string]: CaptureKpture; }> {
+        const response = await this.kpturesGetRaw(initOverrides);
         return await response.value();
     }
 

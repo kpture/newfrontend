@@ -29,13 +29,13 @@ export class WiresharkApi extends runtime.BaseAPI {
      * Get hostfile
      * Get hostfile
      */
-    async apiV1WiresharkHostfileGetRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<string>> {
+    async wiresharkHostfileGetRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<string>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/v1/wireshark/hostfile`,
+            path: `/wireshark/hostfile`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -48,8 +48,8 @@ export class WiresharkApi extends runtime.BaseAPI {
      * Get hostfile
      * Get hostfile
      */
-    async apiV1WiresharkHostfileGet(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<string> {
-        const response = await this.apiV1WiresharkHostfileGetRaw(initOverrides);
+    async wiresharkHostfileGet(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<string> {
+        const response = await this.wiresharkHostfileGetRaw(initOverrides);
         return await response.value();
     }
 

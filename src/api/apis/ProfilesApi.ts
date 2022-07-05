@@ -20,7 +20,11 @@ import {
     ServerServerErrorToJSON,
 } from '../models';
 
-export interface ApiV1ProfileProfileNamePostRequest {
+export interface ProfileProfileNameDeleteRequest {
+    profileName: string;
+}
+
+export interface ProfileProfileNamePostRequest {
     profileName: string;
 }
 
@@ -30,12 +34,12 @@ export interface ApiV1ProfileProfileNamePostRequest {
 export class ProfilesApi extends runtime.BaseAPI {
 
     /**
-     * Create profile
-     * Create profile
+     * Delete profile
+     * Delete profile
      */
-    async apiV1ProfileProfileNamePostRaw(requestParameters: ApiV1ProfileProfileNamePostRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>> {
+    async profileProfileNameDeleteRaw(requestParameters: ProfileProfileNameDeleteRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.profileName === null || requestParameters.profileName === undefined) {
-            throw new runtime.RequiredError('profileName','Required parameter requestParameters.profileName was null or undefined when calling apiV1ProfileProfileNamePost.');
+            throw new runtime.RequiredError('profileName','Required parameter requestParameters.profileName was null or undefined when calling profileProfileNameDelete.');
         }
 
         const queryParameters: any = {};
@@ -43,7 +47,38 @@ export class ProfilesApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/v1/profile/{profileName}`.replace(`{${"profileName"}}`, encodeURIComponent(String(requestParameters.profileName))),
+            path: `/profile/{profileName}`.replace(`{${"profileName"}}`, encodeURIComponent(String(requestParameters.profileName))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Delete profile
+     * Delete profile
+     */
+    async profileProfileNameDelete(requestParameters: ProfileProfileNameDeleteRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void> {
+        await this.profileProfileNameDeleteRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * Create profile
+     * Create profile
+     */
+    async profileProfileNamePostRaw(requestParameters: ProfileProfileNamePostRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.profileName === null || requestParameters.profileName === undefined) {
+            throw new runtime.RequiredError('profileName','Required parameter requestParameters.profileName was null or undefined when calling profileProfileNamePost.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/profile/{profileName}`.replace(`{${"profileName"}}`, encodeURIComponent(String(requestParameters.profileName))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -56,21 +91,21 @@ export class ProfilesApi extends runtime.BaseAPI {
      * Create profile
      * Create profile
      */
-    async apiV1ProfileProfileNamePost(requestParameters: ApiV1ProfileProfileNamePostRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void> {
-        await this.apiV1ProfileProfileNamePostRaw(requestParameters, initOverrides);
+    async profileProfileNamePost(requestParameters: ProfileProfileNamePostRequest, initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<void> {
+        await this.profileProfileNamePostRaw(requestParameters, initOverrides);
     }
 
     /**
      * Get profiles
      * Get profiles
      */
-    async apiV1ProfilesGetRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Array<string>>> {
+    async profilesGetRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Array<string>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/v1/profiles`,
+            path: `/profiles`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -83,8 +118,8 @@ export class ProfilesApi extends runtime.BaseAPI {
      * Get profiles
      * Get profiles
      */
-    async apiV1ProfilesGet(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Array<string>> {
-        const response = await this.apiV1ProfilesGetRaw(initOverrides);
+    async profilesGet(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Array<string>> {
+        const response = await this.profilesGetRaw(initOverrides);
         return await response.value();
     }
 

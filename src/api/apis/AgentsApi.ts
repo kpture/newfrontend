@@ -32,13 +32,13 @@ export class AgentsApi extends runtime.BaseAPI {
      * Get Agents
      * Get Agents
      */
-    async apiV1AgentsGetRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Array<AgentMetadata>>> {
+    async agentsGetRaw(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<runtime.ApiResponse<Array<AgentMetadata>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/v1/agents`,
+            path: `/agents`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -51,8 +51,8 @@ export class AgentsApi extends runtime.BaseAPI {
      * Get Agents
      * Get Agents
      */
-    async apiV1AgentsGet(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Array<AgentMetadata>> {
-        const response = await this.apiV1AgentsGetRaw(initOverrides);
+    async agentsGet(initOverrides?: RequestInit | runtime.InitOverideFunction): Promise<Array<AgentMetadata>> {
+        const response = await this.agentsGetRaw(initOverrides);
         return await response.value();
     }
 
