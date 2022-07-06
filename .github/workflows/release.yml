@@ -16,7 +16,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
-          RELEASE_BRANCHES: "main"
+          RELEASE_BRANCHES: "master"
           DRY_RUN: "true"
           DEFAULT_BUMP : "patch"
       - name: Login to DockerHub
@@ -48,7 +48,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
-          RELEASE_BRANCHES: "main"
+          RELEASE_BRANCHES: "master"
           DRY_RUN: "true"
           DEFAULT_BUMP : "patch"
       - name: Package helm chart
