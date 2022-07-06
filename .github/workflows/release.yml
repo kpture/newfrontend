@@ -62,6 +62,7 @@ jobs:
         run: |
           git config --global user.name 'kpture'
           git config --global user.email 'kpture.git@gmail.com'
+          git add .
           git commit -am "[CI] Bump chart version"
           git push
       - name: Create TAG
