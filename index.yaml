@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  dashboard:
+  - apiVersion: v2
+    appVersion: v0.0.5
+    created: "2022-07-06T23:26:07.721311174Z"
+    description: A Helm chart for Kubernetes
+    digest: efb79d21e932b4f771b479d5c70f3ecb4144d5ff16f8ad56ba3ff1d3ca8a3661
+    name: dashboard
+    type: application
+    urls:
+    - https://github.com/kpture/newfrontend/releases/download/v0.0.5/dashboard-v0.0.5.tgz
+    version: v0.0.5
+generated: "2022-07-06T23:26:07.721321574Z"
