@@ -26,14 +26,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/setup-buildx-action@v2
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: ${{ matrix.dockerfile }}
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: "ghcr.io/kpture/dashboard:${{ steps.bumptagfake.outputs.new_tag }}"
+      # - name: Build and push
+      #   uses: docker/build-push-action@v3
+      #   with:
+      #     context: .
+      #     file: ${{ matrix.dockerfile }}
+      #     push: true
+      #     platforms: linux/amd64,linux/arm64
+      #     tags: "ghcr.io/kpture/dashboard:${{ steps.bumptagfake.outputs.new_tag }}"
   release:
     needs: docker
     runs-on: ubuntu-latest
