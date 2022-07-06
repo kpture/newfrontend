@@ -6,6 +6,8 @@ FROM node:18.3.0 as build
 WORKDIR /usr/src/app
 COPY . ./
 # Run yarn install
+RUN yarn config set network-timeout 600000 -g
+
 RUN yarn install
 # Start the application
 RUN yarn build

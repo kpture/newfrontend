@@ -2,6 +2,8 @@
 name: Create Release
 on: [workflow_dispatch]
 jobs:
+  # build:
+  #   uses: ./.github/workflows/build.yml
   docker:
     runs-on: ubuntu-latest
     steps:
@@ -14,7 +16,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
-          RELEASE_BRANCHES: "master"
+          RELEASE_BRANCHES: "main"
           DRY_RUN: "true"
           DEFAULT_BUMP : "patch"
       - name: Login to DockerHub
@@ -28,9 +30,10 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          # platforms: linux/amd64,linux/arm64
+          file: ${{ matrix.dockerfile }}
           push: true
-          tags: "ghcr.io/kpture:${{ steps.bumptagfake.outputs.new_tag }}"
+          platforms: linux/amd64,linux/arm64
+          tags: "ghcr.io/kpture/dashboard:${{ steps.bumptagfake.outputs.new_tag }}"
   release:
     needs: docker
     runs-on: ubuntu-latest
@@ -48,6 +51,19 @@ jobs:
           RELEASE_BRANCHES: "main"
           DRY_RUN: "true"
           DEFAULT_BUMP : "patch"
+      - name: Package helm chart
+        run: |
+          wget -qO ./yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          chmod a+x ./yq
+          ./yq e '.appVersion = "${{ steps.bumptagfake.outputs.new_tag }}" ' -i chart/Chart.yaml
+          ./yq e '.version = "${{ steps.bumptagfake.outputs.new_tag }}" ' -i chart/Chart.yaml
+          helm package chart
+      - name: Commit [CI] new helm values
+        run: |
+          git config --global user.name 'kpture'
+          git config --global user.email 'kpture.git@gmail.com'
+          git commit -am "[CI] Bump chart version"
+          git push
       - name: Create TAG
         id: bumptag
         uses: anothrNick/github-tag-action@1.39.0
@@ -72,3 +88,30 @@ jobs:
           body: ${{steps.build_changelog.outputs.changelog}}
           draft: false
           prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./kpture-${{ steps.bumptag.outputs.new_tag }}.tgz
+          asset_name: kpture-${{ steps.bumptag.outputs.new_tag }}.tgz
+          asset_content_type: application/gzip
+      - name: Create Index yaml
+        run: |   
+          curl -sSLo cr.tar.gz "https://github.com/helm/chart-releaser/releases/download/v1.4.0/chart-releaser_1.4.0_linux_amd64.tar.gz"
+          tar -xzf cr.tar.gz
+          rm -f cr.tar.gz
+          owner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
+          repo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
+          git config user.email "$owner@users.noreply.github.com"
+          git config user.name "$owner"
+          ./cr package chart
+          ./cr index \
+              --owner "$owner" \
+              --git-repo "$repo" \
+              --token "${{ secrets.GITHUB_TOKEN }}" \
+              --release-name-template "{{ .Version }}" \
+              --index-path ./index.yaml \
+              --push
