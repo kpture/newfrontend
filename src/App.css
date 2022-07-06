@@ -1,7 +1,5 @@
 @import '~antd/dist/antd.css';
 
-
-
 .ant-avatar-lg {
   width: 60px;
   height: 60px;
@@ -33,10 +31,7 @@ body {
   max-height: 90vh;
 
 }
-/* .ant-table-tbody > tr.ant-table-row-selected > td {
-  background: #a9c6ff;
-  border-color: rgba(0, 0, 0, 0.03);
-} */
+
 .ant-table-container table > thead > tr:first-child th:last-child {
   border-top-right-radius: 7px;
 }
@@ -44,6 +39,7 @@ body {
 .ant-table-container table > thead > tr:first-child th:first-child {
   border-top-left-radius: 7px;
 }
+
 .ant-table-thead > tr > th {
   color: rgba(0, 0, 0, 0.85);
   background: transparent;
@@ -66,10 +62,11 @@ body {
 @font-face {
   font-family: 'Poppins';
   src: local('Poppins'), url(./assets/fonts/Poppins-Light.ttf) format('truetype');
-  /* other formats include: 'woff2', 'truetype, 'opentype',
-                            'embedded-opentype', and 'svg' */
 }
-
+@font-face {
+  font-family: 'Poppinsm';
+  src: local('Poppins'), url(./assets/fonts/Poppins-Medium.ttf) format('truetype');
+}
 
 
 a {
@@ -122,4 +119,13 @@ a:hover{
 
 .ant-pagination-item-active {
   border-color: #4682FF;
+}
+
+.ant-progress-inner {
+  background-color: "transparent";
+}
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+
+  border: none;
 }

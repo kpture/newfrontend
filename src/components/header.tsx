@@ -14,7 +14,7 @@ import {
 
 const { Option } = Select;
 
-const KptureHeader: React.FC<{
+export const KptureHeader: React.FC<{
   profile: string,
   profiles : string[],
   setProfile: (profile: string) => void;
@@ -34,13 +34,13 @@ const KptureHeader: React.FC<{
 
       avatar={{ src: logo, size: 'large' }}
       extra={[
-        <Button key="3" size='large'><Link to="/dashboard">Home</Link></Button>,
-        <Button key="2" size='large'><Link to="/captures">Captures</Link></Button>,
-        <Button key="4" size='large'><Link to="/settings">Settings</Link></Button>,
+        <Button key="3"   style={{ border: 'none' ,boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)", borderRadius: "2px"}} size='large'><Link to="/dashboard">Home</Link></Button>,
+        <Button key="2"  style={{ border: 'none' ,boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)", borderRadius: "2px"}}   size='large'><Link to="/captures">Captures</Link></Button>,
+        <Button key="4"  style={{ border: 'none' ,boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)", borderRadius: "2px"}} size='large'><Link to="/settings">Settings</Link></Button>,
         <Select
           key="8"
           showSearch
-          style={{ minWidth: 100 }}
+          style={{ minWidth: 100 ,border: 'none' ,boxShadow: "5px 8px 24px 5px rgba(208, 216, 243, 0.6)", borderRadius: "2px"}} 
           placeholder="Profile"
           onChange={handleChange}
           size='large'
