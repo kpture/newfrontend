@@ -104,7 +104,7 @@ const KptureModal: React.FC<{
           Stop
         </Button>,
         <Button size="large" type="primary" disabled={KptureStatus === "terminated" ? false : true}>
-          <a href={"http://192.168.64.3/kpture/api/v1/captures/" + profile + "/" + uuid + "/" + kptureName + ".tar"} download>
+          <a href={"http://"+window.location.host+"/kpture/api/v1/captures/" + profile + "/" + uuid + "/" + kptureName + ".tar"} download>
             <DownloadOutlined />
             Download
           </a>

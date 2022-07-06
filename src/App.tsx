@@ -91,10 +91,9 @@ function App() {
       <KptureHeader profile={profile} profiles={profiles} setProfile={setCurrentProfile}></KptureHeader>
       <div style={{ margin: "auto", width: "50vw", marginTop: "50px" }}>
         <Routes>
-          <Route path="/dashboard" element={<AgentTable profile={profile} />} />
-          <Route path="/captures" element={<KpturesTable profile={profile} />} />
-          <Route path="/settings" element={<SettingsPage namespaces={allNamespaces} />} />
-          <Route path="/" element={<Navigate replace to="/dashboard" />} />
+          <Route path="/" element={<AgentTable profile={profile} />} />
+          <Route path="/captures/" element={<KpturesTable profile={profile} />} />
+          <Route path="/settings/" element={<SettingsPage namespaces={allNamespaces} />} />
         </Routes>
       </div>
     </div>

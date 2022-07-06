@@ -6,7 +6,7 @@ import { Card } from 'antd';
 import { Tag } from 'antd';
 import { KpturesApi, } from '../api/apis/KpturesApi'
 import { ServerKptureRequest } from '../api/models/ServerKptureRequest'
-import { ArrowUpOutlined, LoadingOutlined, DeleteOutlined, UploadOutlined, DownloadOutlined } from '@ant-design/icons';
+import { ArrowUpOutlined, LoadingOutlined, DeleteOutlined, UploadOutlined, DownloadOutlined, WindowsFilled } from '@ant-design/icons';
 
 import { ServerKptureRequestAgentsRequestInner } from '../api/models/ServerKptureRequestAgentsRequestInner'
 import { CaptureKpture } from '../api';
@@ -182,7 +182,7 @@ export const KpturesTable: React.FC<{ profile: string }> = ({ profile }) => {
                 record.status === "terminated" ?
                 <>
                     <Button size="small" type="primary" disabled={record.status === "terminated" ? false : true} style={{marginRight:10}}>
-                        <a href={"http://192.168.64.3/kpture/api/v1/captures/" + profile +"/"+record.uuid + "/" + record.name + ".tar"} download>
+                        <a href={"http://"+window.location.host+"/kpture/api/v1/captures/" + profile +"/"+record.uuid + "/" + record.name + ".tar"} download>
                             <DownloadOutlined />
                             Download
                         </a>
