@@ -8,24 +8,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      - name: Bump version and push tag
-        id: bumptagfake
-        uses: anothrNick/github-tag-action@1.39.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: true
-          RELEASE_BRANCHES: "master"
-          DRY_RUN: "true"
-          DEFAULT_BUMP : "patch"
-      - name: Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/setup-buildx-action@v2
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v2
+      # - name: Bump version and push tag
+      #   id: bumptagfake
+      #   uses: anothrNick/github-tag-action@1.39.0
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     WITH_V: true
+      #     RELEASE_BRANCHES: "master"
+      #     DRY_RUN: "true"
+      #     DEFAULT_BUMP : "patch"
+      # - name: Login to DockerHub
+      #   uses: docker/login-action@v2
+      #   with:
+      #     registry: ghcr.io
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.GITHUB_TOKEN }}
+      # - uses: docker/setup-buildx-action@v2
       # - name: Build and push
       #   uses: docker/build-push-action@v3
       #   with:
@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      # - uses: azure/setup-helm@v3
+      - uses: azure/setup-helm@v3
       - name: set repository safe
         run : git config --global --add safe.directory /github/workspace
       - name: create next tag
@@ -98,7 +98,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: ./kpture-${{ steps.bumptag.outputs.new_tag }}.tgz
-          asset_name: kpture-${{ steps.bumptag.outputs.new_tag }}.tgz
+          asset_name: dashboard-${{ steps.bumptag.outputs.new_tag }}.tgz
           asset_content_type: application/gzip
       - name: Create Index yaml
         run: |   
