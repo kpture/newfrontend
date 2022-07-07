@@ -44,7 +44,9 @@ const KptureModal: React.FC<{
   };
 
   function startWs() {
-    wsRef.current = new WebSocket("ws://192.168.64.3/kpture/api/v1/kpture/ws/" + profile + "/" + uuid)
+    windo
+
+    wsRef.current = new WebSocket("ws://"+window.location.host+"/kpture/api/v1/kpture/ws/" + profile + "/" + uuid)
 
     wsRef.current.addEventListener('open', function (event) {
       console.log('connected');
