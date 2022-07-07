@@ -29,4 +29,4 @@ COPY --from=build /usr/src/app/build /app/build
 EXPOSE 8080
 
 # Container start command for production
-CMD ["/server"]
+CMD ["/app/server"]

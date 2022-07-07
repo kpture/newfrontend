@@ -1,6 +1,16 @@
 
 name: Create Release
-on: [workflow_dispatch]
+
+on: 
+  workflow_dispatch:
+    inputs:
+      platform:
+        type: choice
+        description: docker cpu arch
+        options: 
+        - linux/amd64
+        - linux/arm64
+        - linux/amd64,linux/arm64
 jobs:
   # build:
   #   uses: ./.github/workflows/build.yml
@@ -32,7 +42,7 @@ jobs:
           context: .
           file: ${{ matrix.dockerfile }}
           push: true
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ github.event.inputs.platform }}
           tags: "ghcr.io/kpture/dashboard:${{ steps.bumptagfake.outputs.new_tag }}"
   release:
     needs: docker
@@ -53,10 +63,10 @@ jobs:
           DEFAULT_BUMP : "patch"
       - name: Package helm chart
         run: |
-          wget -qO ./yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
-          chmod a+x ./yq
-          ./yq e '.appVersion = "${{ steps.bumptagfake.outputs.new_tag }}" ' -i chart/Chart.yaml
-          ./yq e '.version = "${{ steps.bumptagfake.outputs.new_tag }}" ' -i chart/Chart.yaml
+          wget -qO /tmp/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          chmod a+x /tmp/yq
+          /tmp/yq e '.appVersion = "${{ steps.bumptagfake.outputs.new_tag }}" ' -i chart/Chart.yaml
+          /tmp/yq e '.version = "${{ steps.bumptagfake.outputs.new_tag }}" ' -i chart/Chart.yaml
           helm package chart
           ls
       - name: Commit [CI] new helm values
