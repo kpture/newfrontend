@@ -34,7 +34,6 @@ export const SettingsPage: React.FC<{
     const [profileName, setprofileName] = useState("");
 
     function injectNamespace(){
-
         let config = GetConfig(profileName)
         let K8sApi = new KubernetesApi(config)
         K8sApi.k8sNamespacesNamespaceInjectPost({
@@ -46,7 +45,6 @@ export const SettingsPage: React.FC<{
         .catch((error) => {
             console.error(error);
             openNotificationWithIcon('error',error)
-
         });
     }
 

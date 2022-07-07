@@ -109,6 +109,7 @@ export const KpturesTable: React.FC<{ profile: string }> = ({ profile }) => {
             setcaptures(c)
         }).catch((err) => {
             console.log(err)
+            ErrorNotif("could not fetch api",err)
         })
     }
 

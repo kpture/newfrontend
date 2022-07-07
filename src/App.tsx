@@ -8,6 +8,7 @@ import { notification } from "antd"
 import { Routes, Route, Navigate } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import { GetConfig } from './api/helpers/api';
+import { ErrorNotif } from './misc/notification';
 
 
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
@@ -59,6 +60,8 @@ function App() {
 
     ProfileApi.profilesGet().then(data => {
       setProfiles(data)
+    }).catch(e=>{
+      ErrorNotif("could not fetch profiles",String(e))
     })
 
     let ns: ColumnFilterItem[] = []
@@ -82,6 +85,7 @@ function App() {
         })
         setAllNamespaces(difference)
       })
+    }).catch(e=>{
     })
   }, []);
 

@@ -37,7 +37,7 @@ dev:
   - imageSelector: ${IMAGE} # Select the Pod that runs our `${IMAGE}`
     # `excludePaths` option expects an array of strings with paths that should not be synchronized between the
     # local filesystem and the remote container filesystem. It uses the same syntax as `.gitignore`.
-    arch: arm64
+    # arch: arm64
     localSubPath: ../
     excludePaths:
     - .git/
