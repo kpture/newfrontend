@@ -9,7 +9,8 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import { GetConfig } from './api/helpers/api';
 import { ErrorNotif } from './misc/notification';
-
+import AppConfig from 'react-global-configuration';
+let isElectron = require("is-electron");
 
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
@@ -28,6 +29,7 @@ function App() {
   const [profile, setProfile] = useState("default");
   const [enabledNamespaces, setenabledNamespaces] = useState<ColumnFilterItem[]>([]);
   const [allNamespaces, setAllNamespaces] = useState<string[]>([]);
+  const [serverIP, setserverIP] = useState<string>();
 
 
   const cookies = new Cookies();
@@ -37,6 +39,7 @@ function App() {
     cookies.set('currentProfile', profile, { path: '/' });
     setProfile("test")
   }
+
   let cookieProfile: string = cookies.get('currentProfile')
 
   useEffect(() => {
@@ -48,10 +51,21 @@ function App() {
   }, [profile])
 
   useEffect(() => {
-  console.log()
+
+    if(isElectron()){
+      console.log("Electron aww yeahhh !");
+      setserverIP("169.254.255.75")
+
+    }else{
+      setserverIP(window.location.host)
+    }
 
 
-    let config =  GetConfig(profile)
+    if (serverIP === undefined ||serverIP === ""){
+      return
+    }
+
+    let config =  GetConfig(profile,serverIP)
 
     let apiAgents: DataType[] = []
     let AgentApi = new AgentsApi(config)
@@ -89,15 +103,18 @@ function App() {
     })
   }, []);
 
+  if (serverIP === undefined ||serverIP === ""){
+    return (<></>)
+  }
 
   return (
     <div>
       <KptureHeader profile={profile} profiles={profiles} setProfile={setCurrentProfile}></KptureHeader>
       <div style={{ margin: "auto", width: "50vw", marginTop: "50px" }}>
         <Routes>
-          <Route path="/" element={<AgentTable profile={profile} />} />
-          <Route path="/captures/" element={<KpturesTable profile={profile} />} />
-          <Route path="/settings/" element={<SettingsPage namespaces={allNamespaces} />} />
+          <Route path="/" element={<AgentTable profile={profile}  serverIP={serverIP}/>} />
+          <Route path="/captures/" element={<KpturesTable profile={profile} serverIP={serverIP} />} />
+          <Route path="/settings/" element={<SettingsPage namespaces={allNamespaces} serverIP={serverIP} />} />
         </Routes>
       </div>
     </div>

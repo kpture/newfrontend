@@ -44,11 +44,18 @@ export interface TableProps {
 // rowSelection object indicates the need for row selection
 
 
-export const KpturesTable: React.FC<{ profile: string }> = ({ profile }) => {
+export const KpturesTable: React.FC<{ profile: string ,serverIP :string }> = ({ profile,serverIP }) => {
 
     const [captures, setcaptures] = useState<DataType[]>([]);
     const [selectedKpture, setSelectedKpture] = useState<DataType>();
     const [visible, setVisible] = useState(false);
+
+
+    useEffect(() => {
+        console.log("fetching captures with profile ", profile)
+        fetchCaptures()
+    }, [profile,serverIP])
+
 
 
     function OpenKpture(kpture: DataType) {
@@ -58,7 +65,10 @@ export const KpturesTable: React.FC<{ profile: string }> = ({ profile }) => {
 
 
     function deleteCapture(uuid: string){
-        let config =  GetConfig(profile)
+        if (serverIP === undefined ||serverIP === ""){
+            return
+          }
+        let config =  GetConfig(profile,serverIP)
         let kptureApi = new KpturesApi(config)
         kptureApi.kptureUuidDelete({uuid:uuid}).then(()=>{
             SucessNotif("Kpture deleted successfully","")
@@ -68,7 +78,10 @@ export const KpturesTable: React.FC<{ profile: string }> = ({ profile }) => {
         })
     }
     function fetchCaptures() {
-        let config =  GetConfig(profile)
+        if (serverIP === undefined ||serverIP === ""){
+            return
+          }
+        let config =  GetConfig(profile,serverIP)
        
         let kptureApi = new KpturesApi(config)
 
@@ -122,10 +135,7 @@ export const KpturesTable: React.FC<{ profile: string }> = ({ profile }) => {
          return(n.toFixed(n < 10 && l > 0 ? 1 : 0) + ' ' + units[l]);
        }
 
-    useEffect(() => {
-        console.log("fetching captures with profile ", profile)
-        fetchCaptures()
-    }, [profile])
+
 
     const columns: ColumnsType<DataType> = [
         {
@@ -183,7 +193,7 @@ export const KpturesTable: React.FC<{ profile: string }> = ({ profile }) => {
                 record.status === "terminated" ?
                 <>
                     <Button size="small" type="primary" disabled={record.status === "terminated" ? false : true} style={{marginRight:10}}>
-                        <a href={"http://"+window.location.host+"/kpture/api/v1/captures/" + profile +"/"+record.uuid + "/" + record.name + ".tar"} download>
+                        <a href={"http://"+serverIP+"/kpture/api/v1/captures/" + profile +"/"+record.uuid + "/" + record.name + ".tar"} download>
                             <DownloadOutlined />
                             Download
                         </a>
@@ -223,6 +233,7 @@ export const KpturesTable: React.FC<{ profile: string }> = ({ profile }) => {
                 setvisible={setVisible}
                 uuid={selectedKpture?.uuid!}
                 key={"test"}
+                serverIP={serverIP}
             ></KptureModal>
 
 

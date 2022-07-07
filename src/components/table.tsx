@@ -23,7 +23,7 @@ interface DataType {
 }
 
 
-export const AgentTable: React.FC<{ profile: string }> = ({ profile }) => {
+export const AgentTable: React.FC<{ profile: string,serverIP :string }> = ({ profile ,serverIP}) => {
   const [KptureName, setKptureName] = useState<string>("");
   const [isKptureNameValid, setisKptureNameValid] = useState(false);
 
@@ -47,7 +47,10 @@ export const AgentTable: React.FC<{ profile: string }> = ({ profile }) => {
   }, [KptureName, selectedAgents])
 
   useEffect(() => {
-    let config = GetConfig(profile)
+    if (serverIP === undefined ||serverIP === ""){
+      return
+    }
+    let config = GetConfig(profile,serverIP)
     let AgentApi = new AgentsApi(config)
     let apiAgents: DataType[] = []
     let K8sApi = new KubernetesApi(config)
@@ -77,7 +80,7 @@ export const AgentTable: React.FC<{ profile: string }> = ({ profile }) => {
     }).catch(error => {
       console.log(error)
     })
-  }, [profile])
+  }, [profile,serverIP])
 
 
   const rowSelection = {
@@ -120,7 +123,11 @@ export const AgentTable: React.FC<{ profile: string }> = ({ profile }) => {
   ];
 
   function startKpture() {
-    let config = GetConfig(profile)
+    if (serverIP === undefined ||serverIP === ""){
+      return
+    }
+
+    let config = GetConfig(profile,serverIP)
     let kptureApi = new KpturesApi(config)
     kptureApi.kpturePost({
       data: {
@@ -163,6 +170,7 @@ export const AgentTable: React.FC<{ profile: string }> = ({ profile }) => {
         setvisible={setVisible}
         uuid={uuid}
         key={"test"}
+        serverIP={serverIP}
       ></KptureModal>
     </div>
   );

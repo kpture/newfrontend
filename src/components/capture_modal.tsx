@@ -11,7 +11,8 @@ const KptureModal: React.FC<{
   kptureName: string,
   profile: string,
   uuid: string,
-}> = ({ visible, kptureName, profile, uuid, setvisible }) => {
+  serverIP:string
+}> = ({ visible, kptureName, profile, uuid, setvisible ,serverIP}) => {
 
   const [packetNb, setpacketNb] = useState<number>(0);
   const [kptureSize, setkptureSize] = useState<number>(0);
@@ -25,7 +26,7 @@ const KptureModal: React.FC<{
       console.log("starting WS")
       startWs()
     }
-  }, [uuid])
+  }, [uuid,serverIP])
 
 
   if (visible == false) {
@@ -45,13 +46,13 @@ const KptureModal: React.FC<{
 
   function startWs() {
 
-    wsRef.current = new WebSocket("ws://"+window.location.host+"/kpture/api/v1/kpture/ws/" + profile + "/" + uuid)
+    wsRef.current = new WebSocket("ws://"+serverIP+"/kpture/api/v1/kpture/ws/" + profile + "/" + uuid)
 
     wsRef.current.addEventListener('open', function (event) {
       console.log('connected');
       openNotificationWithIcon('success')
     });
-
+    
     wsRef.current.onmessage = function (event) {
       const json = JSON.parse(event.data);
       try {
@@ -70,7 +71,11 @@ const KptureModal: React.FC<{
 
 
   function stopCapture() {
-    let config = GetConfig(profile)
+    if (serverIP === undefined){
+      return
+    }
+
+    let config = GetConfig(profile,serverIP)
     let kptureApi = new KpturesApi(config)
     kptureApi.kptureUuidStopPut({ uuid: uuid }).then((result) => {
       setKptureStatus("terminated")
@@ -105,7 +110,7 @@ const KptureModal: React.FC<{
           Stop
         </Button>,
         <Button size="large" type="primary" disabled={KptureStatus === "terminated" ? false : true}>
-          <a href={"http://"+window.location.host+"/kpture/api/v1/captures/" + profile + "/" + uuid + "/" + kptureName + ".tar"} download>
+          <a href={"http://"+serverIP+"/kpture/api/v1/captures/" + profile + "/" + uuid + "/" + kptureName + ".tar"} download>
             <DownloadOutlined />
             Download
           </a>

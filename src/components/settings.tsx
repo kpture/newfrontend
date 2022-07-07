@@ -1,6 +1,6 @@
 import { Input, Table } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Select ,notification} from 'antd';
 import { Button } from 'antd';
 import { Typography, Divider } from 'antd';
@@ -28,13 +28,21 @@ const openNotificationWithIcon = (type: NotificationType,msg:string) => {
 
 export const SettingsPage: React.FC<{
     namespaces: string[],
-}> = ({ namespaces }) => {
+    serverIP: string,
+}> = ({ namespaces,serverIP }) => {
 
     const [namespace, setNamespace] = useState("default");
     const [profileName, setprofileName] = useState("");
 
+
+    useEffect(()=>{},[serverIP])
+    
     function injectNamespace(){
-        let config = GetConfig(profileName)
+        if (serverIP === undefined ||serverIP === ""){
+            return
+          }
+
+        let config = GetConfig(profileName,serverIP)
         let K8sApi = new KubernetesApi(config)
         K8sApi.k8sNamespacesNamespaceInjectPost({
             namespace: namespace
@@ -50,7 +58,11 @@ export const SettingsPage: React.FC<{
 
 
     function CreateProfile() {
-        let config =  GetConfig("")
+        if (serverIP === undefined ||serverIP === ""){
+            return
+          }
+
+        let config =  GetConfig("",serverIP)
 
         let profilesApi = new ProfilesApi(config)
         profilesApi.profileProfileNamePost({profileName: profileName}).then(()=>{
