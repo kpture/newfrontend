@@ -122,7 +122,7 @@ jobs:
           ./cr package chart
           ./cr index \
               --owner "$owner" \
-              --git-repo "charts-tmp" \
+              --git-repo "$repo" \
               --token "${{ secrets.GITHUB_TOKEN }}" \
               --release-name-template "{{ .Version }}" \
               --index-path ./index.yaml \
