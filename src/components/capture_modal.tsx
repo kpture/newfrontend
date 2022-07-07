@@ -44,7 +44,6 @@ const KptureModal: React.FC<{
   };
 
   function startWs() {
-    windo
 
     wsRef.current = new WebSocket("ws://"+window.location.host+"/kpture/api/v1/kpture/ws/" + profile + "/" + uuid)
 
