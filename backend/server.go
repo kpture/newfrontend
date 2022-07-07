@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -14,7 +15,8 @@ func main() {
 		AllowMethods: []string{http.MethodGet, http.MethodHead, http.MethodPut, http.MethodPatch, http.MethodPost, http.MethodDelete},
 	}))
 
-	e.Static("/kpture/dashboard/", "./build/")
+	fs := http.FileServer(http.Dir("./build/"))
+	e.GET("/kpture/dashboard/*", echo.WrapHandler(http.StripPrefix("/kpture/dashboard/", fs)))
 
-	e.Start("0.0.0.0:80")
+	fmt.Println(e.Start("0.0.0.0:8080"))
 }
