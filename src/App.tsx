@@ -58,9 +58,8 @@ function App() {
 
     }else{
       console.log("set server ip to 169.254.255.76 ")
-      setserverIP("169.254.255.76")
+      setserverIP(window.location.host)
     }
-
 
     if (serverIP === undefined ||serverIP === ""){
       return
