@@ -57,7 +57,8 @@ function App() {
       setserverIP("169.254.255.75")
 
     }else{
-      setserverIP(window.location.host)
+      console.log("set server ip to 169.254.255.76 ")
+      setserverIP("169.254.255.76")
     }
 
 
@@ -90,18 +91,22 @@ function App() {
       })
       nsList = data
       setenabledNamespaces(ns)
+      console.log("enabled ns" , ns)
     }).then(() => {
+      console.log("fetching all k8s ns")
       K8sApi.k8sNamespacesGet().then(data => {
         let difference = data.filter(x => !nsList.includes(x));
-
         difference = difference.filter(value => {
           return !value.startsWith("kube-") && value !== "kpture"
         })
+        console.log("not enabled namespaces",difference)
+
         setAllNamespaces(difference)
       })
     }).catch(e=>{
+      console.log(String(e))
     })
-  }, []);
+  }, [profile,serverIP]);
 
   if (serverIP === undefined ||serverIP === ""){
     return (<></>)
